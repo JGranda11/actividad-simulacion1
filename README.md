@@ -102,7 +102,6 @@ This program, [`process-run.py`](process-run.py), allows you to see how process 
 
 
    </details>
-   <br>
 
 8. Now run the same processes, but with `-I IO RUN IMMEDIATE` set, which immediately runs the process that issued the I/O. How does this behavior differ? Why might running a process that just completed an I/O again be a good idea?
    
