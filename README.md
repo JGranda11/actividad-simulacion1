@@ -28,11 +28,10 @@ This program, [`process-run.py`](process-run.py), allows you to see how process 
    Por tanto la CPU ejecuta las 5 instrucciones del primer proceso y el proceso 2 se encuentra en estado READY para luego usar la CPU.</p>
    <br>
    <code>process-run.py -l 5:100,5:100</code>
-   
-   <br>
 
-   ![alt text](image.png)
-    
+   <br>
+   <img src="image.png" alt="Recursos insuficientes">
+
    `process-run.py -l 5:100,5:100 -c -p`
    
    ![alt text](image-1.png)
