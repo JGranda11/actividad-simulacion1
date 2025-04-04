@@ -26,18 +26,17 @@ This program, [`process-run.py`](process-run.py), allows you to see how process 
    <summary>Answer</summary>
    <p>La CPU esta siendo utilizada en todo momento, dado que tenemos 2 procesos y cada uno con el 100% de probabilidad de uso de CPU.
    Por tanto la CPU ejecuta las 5 instrucciones del primer proceso y el proceso 2 se encuentra en estado READY para luego usar la CPU.</p>
-   <br>
+      
    <code>process-run.py -l 5:100,5:100</code>
 
-   <br>
    <img src="image.png" alt="Recursos insuficientes">
-
+   <br>
+   
    `process-run.py -l 5:100,5:100 -c -p`
    
    ![alt text](image-1.png)
 
    </details>
-   <br>
 
 2. Now run with these flags: `./process-run.py -l 4:100,1:0`. These flags specify one process with 4 instructions (all to use the CPU), and one that simply issues an I/O and waits for it to be done. How long does it take to complete both processes? Use `-c` and `-p` to find out if you were right. 
    
