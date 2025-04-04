@@ -26,20 +26,16 @@ This program, [`process-run.py`](process-run.py), allows you to see how process 
    <summary>Answer</summary>
    La CPU esta siendo utilizada en todo momento, dado que tenemos 2 procesos y cada uno con el 100% de probabilidad de uso de CPU.
    Por tanto la CPU ejecuta las 5 instrucciones del primer proceso y el proceso 2 se encuentra en estado READY para luego usar la CPU.
-   <br>
    
-   `process-run.py -l 5:100,5:100`
+   <br>
+   <code>process-run.py -l 5:100,5:100</code>
 
    <br>
-   
+
    ![Instrucción ejecuta ](image.png)
-
-   <br>
     
    `process-run.py -l 5:100,5:100 -c -p`
    
-   <br>
-    
    ![alt text](image-1.png)
 
    </details>
