@@ -1,9 +1,9 @@
 # Actividad de seguimiento - Simulación 1
 
-|Integrante|correo|usuario github|
+|Integrante|Correo|Usuario Github|
 |---|---|---|
-|Nombre completo integrante 1|correo integrante 1|gihub user integrante 1|
-|Nombre completo integrante 2|correo integrante 2|gihub user integrante 2|
+|Brandon Duque Garcia|brandon.duque@udea.edu.co|brandugar|
+|Jonathan Andrés Granda Orrego|jonathan.granda@udea.edu.co|JGranda11|
 
 ## Instrucciones
 
