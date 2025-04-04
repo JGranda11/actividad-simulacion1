@@ -54,41 +54,67 @@ This program, [`process-run.py`](process-run.py), allows you to see how process 
    
    <details>
    <summary>Answer</summary>
+      
    Ahora lo que pasa es que, como el primer proceso de la lista tiene un 0% de probabilidades de usar la CPU, hace la llamada a I/O y mientras este esta bloqueado la CPU se va a usar con el siguiente proceso, esto conlleva a que el tiempo de ejecución se reduzca, por que la CPU va a estar menos tiempo desocupada
+
+   `process-run.py -l 1:0,4:100`
       
       ![image](https://github.com/user-attachments/assets/9e2ffa65-8a76-4001-b6d7-c16aa43092cd)
 
    </details>
 
-4. We'll now explore some of the other flags. One important flag is `-S`, which determines how the system reacts when a process issues an I/O. With the flag set to SWITCH ON END, the system will NOT switch to another process while one is doing I/O, instead waiting until the process is completely finished. What happens when you run the following two processes (`-l 1:0,4:100 -c -S SWITCH ON END`), one doing I/O and the other doing CPU work?
+5. We'll now explore some of the other flags. One important flag is `-S`, which determines how the system reacts when a process issues an I/O. With the flag set to SWITCH ON END, the system will NOT switch to another process while one is doing I/O, instead waiting until the process is completely finished. What happens when you run the following two processes (`-l 1:0,4:100 -c -S SWITCH ON END`), one doing I/O and the other doing CPU work?
    
    <details>
    <summary>Answer</summary>
-   Coloque aqui su respuerta
+   En este caso el tiempo de ejecución no se va a optimizar, el proceso 1 de la lista va a esperar las 5 unidades de tiempo que demora la operación I/O y ningún otro proceso se va a ejecutar, sin importar que la CPU este desocupada el segundo proceso va a estar en estado de READY hasta que el primer proceso haya terminado.
+
+      `./process-run.py -l 1:0,4:100 -c -p  -S SWITCH_ON_END`
+
+      ![image](https://github.com/user-attachments/assets/a1ab2176-c05d-4445-9317-6051a81734aa)
+
+
+   </details>
+
+6. Now, run the same processes, but with the switching behavior set to switch to another process whenever one is WAITING for I/O (`-l 1:0,4:100 -c -S SWITCH ON IO`). What happens now? Use `-c` and `-p` to confirm that you are right.
+   
+   <details>
+   <summary>Answer</summary>
+   Para este caso se optimiza el tiempo de ejecución, el tiempo de ejecución pasa de 11 a 7 unidades de tiempo,asi mismo el porcentaje de uso de la CPU aumenta a un 85.71% 
+   <br>
+
+   `./process-run.py -l 1:0,4:100 -c -p -S SWITCH_ON_IO`
+   
+   ![image](https://github.com/user-attachments/assets/35270f7d-f446-4c43-8659-72a3ad3ebede)
+
+
+   </details>
+
+7. One other important behavior is what to do when an I/O completes. With `-I IO RUN LATER`, when an I/O completes, the process that issued it is not necessarily run right away; rather, whatever was running at the time keeps running. What happens when you run this combination of processes? (`./process-run.py -l 3:0,5:100,5:100,5:100 -S SWITCH ON IO -c -p -I IO RUN LATER`) Are system resources being effectively utilized?
+   
+   <details>
+   <summary>Answer</summary>
+   Lo que ocurre es que el proceso que implica 3 instrucciones de I/O debe esperar para ejecutarse, al ejecutar el primer llamado de I/O cuando pasa a estado de BLOCKED se aprovecha el uso de la CPU ejecutandose el resto de procesos, una vez ejecutados estos procesos, volvemos a realizar el segundo llamado I/O, dado que no hay procesos restantes se desaprovechan las 10 unidades de tiempo restantes, lo que nos lleva a concluir que no se utilizan eficazmente los recursos.
+
+      `./process-run.py -l 3:0,5:100,5:100,5:100 -S SWITCH ON IO -c -p -I IO RUN LATER`
+   
+     ![image](https://github.com/user-attachments/assets/c01dfa61-9dbb-48e1-b4c6-bd58026f490e)
+
+
    </details>
    <br>
 
-5. Now, run the same processes, but with the switching behavior set to switch to another process whenever one is WAITING for I/O (`-l 1:0,4:100 -c -S SWITCH ON IO`). What happens now? Use `-c` and `-p` to confirm that you are right.
+8. Now run the same processes, but with `-I IO RUN IMMEDIATE` set, which immediately runs the process that issued the I/O. How does this behavior differ? Why might running a process that just completed an I/O again be a good idea?
    
    <details>
    <summary>Answer</summary>
-   Coloque aqui su respuerta
-   </details>
-   <br>
+   Para este caso el tiempo de ejecucion se optimiza de muy buena manera, ya que la CPU esta siendo utilizada el 100% de la ejecución. Por tanto la idea de volver de inmediato al proceso que completa la operación I/O es rotundamente exitosa
+   
 
-6. One other important behavior is what to do when an I/O completes. With `-I IO RUN LATER`, when an I/O completes, the process that issued it is not necessarily run right away; rather, whatever was running at the time keeps running. What happens when you run this combination of processes? (`./process-run.py -l 3:0,5:100,5:100,5:100 -S SWITCH ON IO -c -p -I IO RUN LATER`) Are system resources being effectively utilized?
-   
-   <details>
-   <summary>Answer</summary>
-   Coloque aqui su respuerta
-   </details>
-   <br>
+   `./process-run.py -l 3:0,5:100,5:100,5:100 -S SWITCH_ON_IO -c -p -I IO_RUN_IMMEDIATE`
+      
+   ![image](https://github.com/user-attachments/assets/5d856274-57a7-4b9b-89e1-618790d8a574)
 
-7. Now run the same processes, but with `-I IO RUN IMMEDIATE` set, which immediately runs the process that issued the I/O. How does this behavior differ? Why might running a process that just completed an I/O again be a good idea?
-   
-   <details>
-   <summary>Answer</summary>
-   Coloque aqui su respuerta
    </details>
    <br>
 
